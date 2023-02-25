@@ -175,6 +175,7 @@ alias gstsm='git stash push -m'
 
 # submodules
 alias gsu='git submodule update --init --recursive'
+alias gsurm='git submodule foreach --recursive '\''git submodule update --remote --merge'\'''
 
 # switch
 # these aliases requires git v2.23+
