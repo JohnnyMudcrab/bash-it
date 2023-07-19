@@ -3,6 +3,7 @@ about-alias 'common git abbreviations'
 
 alias g='git'
 alias get='git'
+alias lg='lazygit'
 
 # add
 alias ga='git add'
@@ -176,6 +177,8 @@ alias gstsm='git stash push -m'
 # submodules
 alias gsu='git submodule update'
 alias gsi='git submodule init'
+alias gsl='git submodule foreach '\''git pull || :'\'''
+alias gslr='git submodule foreach --recursive '\''git pull || :'\'''
 alias gsurm='git submodule foreach --recursive '\''git submodule update --remote --merge'\'''
 alias gslr='git submodule foreach --recursive '\''git pull || :'\'''
 alias gspr='git submodule foreach --recursive '\''git push || :'\'''
