@@ -200,7 +200,6 @@ alias gstsm='git stash push -m'
 alias gsu='git submodule update'
 alias gsi='git submodule init'
 alias gsl='git submodule foreach '\''git pull || :'\'''
-alias gslr='git submodule foreach --recursive '\''git pull || :'\'''
 alias gsurm='git submodule foreach --recursive '\''git submodule update --remote --merge'\'''
 alias gsiu='git submodule foreach --recursive "[ \"\$(git rev-parse --is-inside-work-tree 2>/dev/null)\" ] || git submodule init && git submodule update"'
 
