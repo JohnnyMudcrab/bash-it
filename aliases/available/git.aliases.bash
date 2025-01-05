@@ -46,6 +46,27 @@ alias gcom='git checkout $(get_default_branch)'
 alias gcpd='git checkout $(get_default_branch); git pull; git branch -D'
 alias gct='git checkout --track'
 
+gcs() {
+	branch="$1"
+	git submodule foreach --recursive '
+    # Check if the branch exists remotely
+    if git ls-remote --heads origin '"$branch"' | grep -q '"$branch"'; then
+        # Check if the branch exists locally and check it out
+        if git show-ref --quiet refs/heads/'"$branch"'; then
+            git checkout '"$branch"'
+        else
+            git checkout -b '"$branch"' origin/'"$branch"'
+        fi
+
+        # Verify if the branch was successfully checked out
+        if [ "$(git rev-parse --abbrev-ref HEAD)" != "'"$branch"'" ]; then
+            echo "\033[33m[WARNING] Failed to switch to '"$branch"' in submodule $name\033[0m"
+        fi
+    else
+        echo "\033[34m[INFO] Branch '"$branch"' does not exist in submodule $name\033[0m"
+    fi'
+}
+
 # clone
 alias gcl='git clone'
 
@@ -118,6 +139,7 @@ alias gpuoc='git push --set-upstream origin $(git symbolic-ref --short HEAD)'
 
 # pull
 alias gl='git pull'
+alias gls='git pull --recurse-submodules'
 alias glum='git pull upstream $(get_default_branch)'
 alias gpl='git pull'
 alias gpp='git pull && git push'
@@ -145,7 +167,7 @@ alias gpristine='git reset --hard && git clean -dfx'
 
 # status
 alias gs='git status'
-alias gss='git status -s'
+alias gss='git submodule status --recursive'
 
 # shortlog
 alias gcount='git shortlog -sn'
@@ -179,8 +201,7 @@ alias gsu='git submodule update'
 alias gsi='git submodule init'
 alias gsl='git submodule foreach '\''git pull || :'\'''
 alias gsurm='git submodule foreach --recursive '\''git submodule update --remote --merge'\'''
-alias gslr='git submodule foreach --recursive '\''git pull || :'\'''
-alias gspr='git submodule foreach --recursive '\''git push || :'\'''
+alias gsiu='git submodule foreach --recursive "[ \"\$(git rev-parse --is-inside-work-tree 2>/dev/null)\" ] || git submodule init && git submodule update"'
 
 # switch
 # these aliases requires git v2.23+
